@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300;400&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap");
 :root {
   color-scheme: dark;
 }
@@ -104,25 +104,25 @@ a {
     margin-right: 40px;
   }
 }
-@media (max-width: 550px) {
+@media (max-width: 750px) {
   .g-container {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
   }
 }
 
 .game-board {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 .game-board .background {
   border-radius: 5px;
   background-color: #050505;
   border: 1px solid #1d1d1d;
   padding: 20px;
+  font-family: "Martian Mono";
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  column-gap: 6px;
   row-gap: 20px;
   overflow-y: hidden;
   max-height: 380px;
@@ -142,10 +142,9 @@ a {
 .game-board .letter-box {
   background-color: #1d1d1d;
   padding: 10px 2px;
-  border-radius: 4px;
   position: relative;
   user-select: none;
-  transition: 100ms;
+  transition: 200ms;
   opacity: 60%;
   box-shadow: 0 0 0 2px transparent;
 }
@@ -156,6 +155,7 @@ a {
   opacity: 1;
 }
 .game-board .letter-box.pointer {
+  z-index: 4;
   box-shadow: 0 0 0 2px #4579ff;
 }
 .game-board .letter-box.wrong {
@@ -165,18 +165,19 @@ a {
   box-shadow: 0 0 0 2px #a50000;
 }
 .game-board .letter-box.correct {
-  background-color: #0da738;
+  background-color: #1042c5;
 }
 .game-board .letter-box.correct.pointer {
-  box-shadow: 0 0 0 2px #05f247;
+  box-shadow: 0 0 0 2px #4579ff;
 }
 .game-board .letter-box .letter {
   display: flex;
   place-content: center;
   color: #f5f5f5;
   text-align: center;
-  font-size: 1.3125rem;
+  font-size: 1.125rem;
   line-height: 1;
+  font-weight: 300;
   height: 21px;
   width: 21px;
 }
@@ -201,18 +202,20 @@ a {
 
 .header-stats {
   margin-top: 20px;
-  display: flex;
+  display: grid;
   gap: 15px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .header-stats .time,
 .header-stats .stats {
   user-select: none;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 15px 20px;
   font-size: 1.5rem;
+  font-size: 1.3125rem;
+  line-height: 1;
   border-radius: 5px;
   background-color: #050505;
   border: 1px solid #1d1d1d;
@@ -220,14 +223,96 @@ a {
   font-weight: 400;
   line-height: 1;
 }
+.header-stats .stats:first-child {
+  max-width: max-content;
+  justify-self: start;
+}
+.header-stats .stats:last-child {
+  max-width: max-content;
+  justify-self: end;
+}
 .header-stats .time {
   width: 90px;
   justify-content: center;
+  justify-self: center;
 }
-.header-stats #js-speed,
-.header-stats #js-accuracy {
+.header-stats .js-points,
+.header-stats .js-accuracy {
   font-weight: 300;
   color: #f5f5f5;
+  font-size: 1.125rem;
+  line-height: 1;
+  font-family: "Martian Mono", monospace;
+}
+
+.modal {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-content: center;
+  transition: opacity 0.3s ease;
+  display: none;
+  z-index: 6;
+}
+.modal.active {
+  display: grid;
+}
+.modal .window {
+  background-color: #050505;
+  border: 1px solid #1d1d1d;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  min-width: 400px;
+}
+.modal .window .title {
+  font-weight: 600;
+  font-size: 1.3125rem;
+  color: #f5f5f5;
+  margin-bottom: 10px;
+}
+.modal .window .subtitle {
+  font-size: 1rem;
+  color: #adadad;
+}
+.modal .window .data {
+  margin-top: 20px;
+  color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.modal .window .data li {
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.modal .window .data li span {
+  font-weight: 300;
+  font-size: 0.875rem;
+  font-family: "Martian Mono", monospace;
+}
+.modal .window .restart-button {
+  margin-top: 30px;
+  padding: 10px 0px;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 4px;
+  background-color: #1042c5;
+  cursor: pointer;
+  transition: 250ms;
+  width: 100%;
+}
+.modal .window .restart-button:hover {
+  background-color: #4579ff;
 }
 
 /*# sourceMappingURL=output.css.map */

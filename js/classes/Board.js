@@ -115,23 +115,42 @@ class Board {
 
       if (counter === 0) {
         clearInterval(timer);
+        this.finishGame();
       }
     }, 1000);
-    this.refreshStats();
   }
 
-  finishGame() {}
+  finishGame() {
+    const restartButton = document.querySelector('#js-restart');
+    restartButton.addEventListener('click', this.handleRestartButton);
+    window.removeEventListener('keypress', this.handleKeypress);
+
+    this.openModal();
+  }
+
+  handleRestartButton = () => {
+    location.reload();
+  };
+
+  openModal() {
+    const endGameModal = document.querySelector('#js-modal');
+    endGameModal.ariaHidden = false;
+    endGameModal.classList.add('active');
+  }
 
   refreshStats() {
-    const pointsValueElement = document.querySelector('#js-points');
-    const accuracyValueElement = document.querySelector('#js-accuracy');
+    const [pointsHeader, pointsFinal] = document.querySelectorAll('.js-points');
+    const [accuracyHeader, accuracyFinal] =
+      document.querySelectorAll('.js-accuracy');
 
-    pointsValueElement.innerText = this.globalStats.correctAttempts;
+    pointsHeader.innerText = this.globalStats.correctAttempts;
+    pointsFinal.innerText = this.globalStats.correctAttempts;
     const precisionRate =
       (this.globalStats.correctAttempts /
         (this.globalStats.correctAttempts + this.globalStats.wrongAttempts)) *
       100;
-    accuracyValueElement.innerText = `${precisionRate.toFixed(0)}%`;
+    accuracyHeader.innerText = `${precisionRate.toFixed(0)}%`;
+    accuracyFinal.innerText = `${precisionRate.toFixed(0)}%`;
   }
 
   appendInitialLetters() {

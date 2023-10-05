@@ -1,17 +1,19 @@
 .header-stats {
   margin-top: 20px;
-  display: flex;
+  display: grid;
   gap: 15px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 1fr 1fr;
 
   .time,
   .stats {
     user-select: none;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     padding: 15px 20px;
     font-size: 1.5rem;
+    font-size: 1.3125rem;
+    line-height: 1;
     border-radius: 5px;
     background-color: #050505;
     border: 1px solid #1d1d1d;
@@ -20,14 +22,31 @@
     line-height: 1;
   }
 
+  .stats {
+    &:first-child {
+      max-width: max-content;
+      justify-self: start;
+    }
+
+    &:last-child {
+      max-width: max-content;
+      justify-self: end;
+    }
+  }
+
   .time {
     width: 90px;
     justify-content: center;
+    justify-self: center;
   }
 
-  #js-speed,
-  #js-accuracy {
+  .js-points,
+  .js-accuracy {
     font-weight: 300;
     color: #f5f5f5;
+
+    font-size: 1.125rem;
+    line-height: 1;
+    font-family: 'Martian Mono', monospace;
   }
 }

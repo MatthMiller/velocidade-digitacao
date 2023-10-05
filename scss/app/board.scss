@@ -1,16 +1,17 @@
 .game-board {
-  margin-top: 50px;
+  margin-top: 40px;
 
   .background {
     border-radius: 5px;
     background-color: #050505;
     border: 1px solid #1d1d1d;
     padding: 20px;
+    font-family: 'Martian Mono';
     position: relative;
 
     display: flex;
     flex-wrap: wrap;
-    column-gap: 6px;
+    // column-gap: 6px;
     row-gap: 20px;
 
     overflow-y: hidden;
@@ -36,10 +37,10 @@
   .letter-box {
     background-color: #1d1d1d;
     padding: 10px 2px;
-    border-radius: 4px;
+    // border-radius: 4px;
     position: relative;
     user-select: none;
-    transition: 100ms;
+    transition: 200ms;
     opacity: 60%;
     box-shadow: 0 0 0 2px transparent;
 
@@ -54,6 +55,7 @@
     }
 
     &.pointer {
+      z-index: 4;
       box-shadow: 0 0 0 2px #4579ff;
     }
 
@@ -66,10 +68,10 @@
     }
 
     &.correct {
-      background-color: #0da738;
+      background-color: #1042c5;
 
       &.pointer {
-        box-shadow: 0 0 0 2px #05f247;
+        box-shadow: 0 0 0 2px #4579ff;
       }
     }
 
@@ -78,8 +80,10 @@
       place-content: center;
       color: #f5f5f5;
       text-align: center;
-      font-size: 1.3125rem;
+      font-size: 1.125rem;
       line-height: 1;
+
+      font-weight: 300;
 
       height: 21px;
       width: 21px;

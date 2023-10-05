@@ -13,9 +13,9 @@
   <header class="g-wrapper">
     <div class="g-container">
       <div class="header-stats">
-        <p class="stats">🔠 Pts:<span id="js-points">0</span></p>
+        <p class="stats">🔠 Pts:<span class="js-points">0</span></p>
         <p class="time" id="js-time">1:00</p>
-        <p class="stats">🎯 Acc:<span id="js-accuracy">0%</span></p>
+        <p class="stats">🎯 Acc:<span class="js-accuracy">0%</span></p>
       </div>
     </div>
   </header>
@@ -23,6 +23,24 @@
   <section class="game-board">
     <div class="g-wrapper">
       <div id="js-board" class="background g-container">
+      </div>
+    </div>
+  </section>
+
+  <section id="js-modal" aria-hidden="true" class="modal">
+    <div class="g-wrapper">
+      <div class="g-container">
+        <div class="window">
+          <h1 class="title">🏆 Your results!</h1>
+          <p class="subtitle">From 1 minute of typing</p>
+
+          <ul class="data">
+            <li>🔠 Points: <span class="js-points">0</span></li>
+            <li>🎯 Accuracy: <span class="js-accuracy">0%</span></li>
+          </ul>
+
+          <button id="js-restart" class="restart-button">Try again</button>
+        </div>
       </div>
     </div>
   </section>
