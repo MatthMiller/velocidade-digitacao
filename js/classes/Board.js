@@ -3,9 +3,14 @@ import sortText from '../functions/sortText.js';
 class Board {
   lettersMap = [];
   letterPointer = 0;
+  hasStartedTyping = false;
+  globalStats = {
+    wrongAttempts: 0,
+    correctAttempts: 0,
+  };
 
   constructor() {
-    this.firstStart();
+    this.init();
   }
 
   attemptToScore(key) {
@@ -22,17 +27,20 @@ class Board {
       this.markAsWrong(actualElement);
       actualElement.appendChild(this.createGhostLetter(key));
     }
+    this.refreshStats();
   }
 
   markAsCorrect(element) {
     element.classList.add('correct');
     this.lettersMap[this.letterPointer].isCorrect = true;
+    this.globalStats.correctAttempts++;
     this.increasePointer();
   }
 
   markAsWrong(element) {
     element.classList.add('wrong');
     this.lettersMap[this.letterPointer].isCorrect = false;
+    this.globalStats.wrongAttempts++;
   }
 
   refreshPointer() {
@@ -62,8 +70,6 @@ class Board {
         };
       }
     );
-
-    console.log(this.lettersMap);
   }
 
   createGhostLetter(character) {
@@ -73,15 +79,12 @@ class Board {
     return letterElement;
   }
 
-  // Arrumar essa bosta abaixo
   topAccumulator = 0;
   checkScroll() {
     const boardElement = document.querySelector('#js-board');
     this.refreshPointer();
     const actualElement = this.letterBoxesElements[this.letterPointer];
     const distanceFromTop = actualElement.offsetTop;
-
-    console.log(distanceFromTop, this.lastDistanceFromTop);
 
     if (this.lastDistanceFromTop === undefined) {
       this.lastDistanceFromTop = distanceFromTop;
@@ -97,8 +100,38 @@ class Board {
       });
 
       this.lastDistanceFromTop = distanceFromTop;
-      console.log(this.lastDistanceFromTop, distanceFromTop);
     }
+  }
+
+  startCounting() {
+    const timeDisplayElement = document.querySelector('#js-time');
+
+    let counter = 60;
+    const timer = setInterval(() => {
+      counter--;
+      timeDisplayElement.innerText = `0:${
+        counter < 10 ? '0' + counter : counter
+      }`;
+
+      if (counter === 0) {
+        clearInterval(timer);
+      }
+    }, 1000);
+    this.refreshStats();
+  }
+
+  finishGame() {}
+
+  refreshStats() {
+    const pointsValueElement = document.querySelector('#js-points');
+    const accuracyValueElement = document.querySelector('#js-accuracy');
+
+    pointsValueElement.innerText = this.globalStats.correctAttempts;
+    const precisionRate =
+      (this.globalStats.correctAttempts /
+        (this.globalStats.correctAttempts + this.globalStats.wrongAttempts)) *
+      100;
+    accuracyValueElement.innerText = `${precisionRate.toFixed(0)}%`;
   }
 
   appendInitialLetters() {
@@ -111,8 +144,6 @@ class Board {
       letterBox.innerHTML = `<p class="letter">${actualCharacter}</p>`;
       boardElement.appendChild(letterBox);
     });
-
-    console.log(boardElement);
   }
 
   setSortedText() {
@@ -137,6 +168,12 @@ class Board {
 
   handleKeypress = (event) => {
     event.preventDefault();
+
+    if (this.hasStartedTyping === false) {
+      this.hasStartedTyping = true;
+      this.startCounting();
+    }
+
     if (event.key === 'Enter') {
       return;
     }
@@ -147,7 +184,7 @@ class Board {
     window.addEventListener('keypress', this.handleKeypress);
   }
 
-  firstStart() {
+  init() {
     this.setSortedText();
     this.addEventListeners();
     this.appendInitialLetters();
